@@ -1,0 +1,15 @@
+# user/models.py
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    age = models.PositiveIntegerField(null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[('M', '남성'), ('F', '여성')], null=True, blank=True)
+    risk_profile = models.CharField(max_length=100, null=True, blank=True)
+    liquid_assets = models.PositiveIntegerField(null=True, blank=True)
+    annual_income = models.PositiveIntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}님의 프로필"

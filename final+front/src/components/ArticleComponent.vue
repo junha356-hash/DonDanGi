@@ -1,67 +1,104 @@
 <template>
-    <div class="row justify-content-center">
-        <!-- left -->
-        <article class="container" data-aos="fade-left" data-aos-duration="700" data-aos-once="false" style="padding-top: 0px;">
-          <div class="row">
-            <div class="col">
-              <h2 class="fw-bold">예적금 들어갈곳</h2>
-            </div>
-          </div>
-        </article>
-
-        <!-- left -->
-        <article class="container justify-content-start"
-        data-aos="fade-left" data-aos-duration="700" data-aos-once="false"
-        >
+  <div class="row justify-content-center">
+  <!-- left -->
+    <article class="container" data-aos="fade-left" data-aos-duration="700" data-aos-once="false" style="padding-top: 0px;">
         <div class="row justify-content-between">
-          <div class="col-5" style="margin: auto 0;">
-            <RouterLink :to="{ name: 'bank' }">
-              <img src="../assets/bank.webp" alt="bank_img" style="width:100%;">
-            </RouterLink>
-          </div>
-          <div class="col-6">
-            <RouterLink :to="{ name: 'bank' }" class="text-decoration-none text-dark">
-              <h1 class="my-3 fw-bold">주변 은행 찾기 서비스</h1>
-              <p>내 위치 주변의 은행을 찾아보세요!</p>
+            <div class="col-7">
+              <RouterLink :to="{ name: 'product', params: { type: 'deposit', bank: 'shinhan', trm: '12' } }" class="text-decoration-none text-dark">
+                <h1 class="my-3 fw-bold">예금/적금 비교</h1>
+                <p>예적금 정보를 손쉽게 비교해 보세요!</p>
+              </RouterLink>
               <br>
-            </RouterLink>
-          </div>
+            </div>
+            <div class="col-5" style="margin: auto 0;">
+              <RouterLink :to="{ name: 'gold_silver'}">
+                <img src="../assets/deposit_saving.webp" alt="deposit_saving_img" style="width:100%;">
+              </RouterLink>
+            </div>
         </div>
-        </article>
-        
-        <!-- left -->
-        <article class="container" data-aos="fade-left" data-aos-duration="700" data-aos-once="false" style="padding-top: 0px;">
-            <div class="row justify-content-between">
-                <div class="col-7">
-                  <RouterLink :to="{ name: 'gold_silver'}" class="text-decoration-none text-dark">
-                    <h1 class="my-3 fw-bold">국제 금/은 시세 확인 서비스</h1>
-                    <p>국제 금/은 시세를 확인해 보세요!</p>
-                  </RouterLink>
-                  <br>
-                </div>
-                <div class="col-5" style="margin: auto 0;">
-                  <RouterLink :to="{ name: 'gold_silver'}">
-                    <img src="../assets/gold_silver.webp" alt="gold_silver_img" style="width:100%;">
-                  </RouterLink>
-                </div>
-            </div>
-        </article>
-        
-        <!-- right -->
-        <article class="container justify-content-start"
-        data-aos="fade-right" data-aos-duration="700" data-aos-once="false"
-        >
-          <div class="row">
-            <div class="col">
-              <h2 class="fw-bold">커뮤니티 들어갈곳</h2>
-            </div>
-          </div>
-        </article>
+    </article>
 
+    <article class="container justify-content-start"
+    data-aos="fade-left" data-aos-duration="700" data-aos-once="false"
+    >
+    <div class="row justify-content-between">
+      <div class="col-5" style="margin: auto 0;">
+        <RouterLink :to="{ name: 'bank' }">
+          <img src="../assets/Video.jpg" alt="Video_img" style="width:100%;">
+        </RouterLink>
+      </div>
+      <div class="col-6">
+        <RouterLink :to="{ name: 'search' }" class="text-decoration-none text-dark">
+          <h1 class="my-3 fw-bold">검색 기업 영상</h1>
+          <p>검색한 기업의 정보를 찾아보세요!</p>
+          <br>
+        </RouterLink>
+      </div>
     </div>
+    </article>
+
+    <!-- right -->
+    <article class="container justify-content-start"
+    data-aos="fade-left" data-aos-duration="700" data-aos-once="false"
+    >
+    <div class="row justify-content-between">
+      <div class="col-5" style="margin: auto 0;">
+        <RouterLink :to="{ name: 'bank' }">
+          <img src="../assets/bank.webp" alt="bank_img" style="width:100%;">
+        </RouterLink>
+      </div>
+      <div class="col-6">
+        <RouterLink :to="{ name: 'bank' }" class="text-decoration-none text-dark">
+          <h1 class="my-3 fw-bold">주변 은행 찾기 서비스</h1>
+          <p>내 위치 주변의 은행을 찾아보세요!</p>
+          <br>
+        </RouterLink>
+      </div>
+    </div>
+    </article>
+
+    <!-- left -->
+    <article class="container" data-aos="fade-left" data-aos-duration="700" data-aos-once="false" style="padding-top: 0px;">
+        <div class="row justify-content-between">
+            <div class="col-7">
+              <RouterLink :to="{ name: 'gold_silver'}" class="text-decoration-none text-dark">
+                <h1 class="my-3 fw-bold">국제 금/은 시세 확인 서비스</h1>
+                <p>국제 금/은 시세를 확인해 보세요!</p>
+              </RouterLink>
+              <br>
+            </div>
+            <div class="col-5" style="margin: auto 0;">
+              <RouterLink :to="{ name: 'gold_silver'}">
+                <img src="../assets/gold_silver.webp" alt="gold_silver_img" style="width:100%;">
+              </RouterLink>
+            </div>
+        </div>
+    </article>
+
+    <!-- right -->
+    <article class="container justify-content-start"
+    data-aos="fade-left" data-aos-duration="700" data-aos-once="false"
+    >
+    <div class="row justify-content-between">
+      <div class="col-5" style="margin: auto 0;">
+        <RouterLink :to="{ name: 'bank' }">
+          <img src="../assets/community.jpg" alt="community_img" style="width:100%;">
+        </RouterLink>
+      </div>
+      <div class="col-6">
+        <RouterLink :to="{ name: 'home' }" class="text-decoration-none text-dark">
+          <h1 class="my-3 fw-bold">커뮤니티 바로가기</h1>
+          <p>금융 관련 지식을 다른 사람들과 함께 나누세요!</p>
+          <br>
+        </RouterLink>
+      </div>
+    </div>
+    </article>
+  </div>
 </template>
 
 <script setup>
+import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style scoped>

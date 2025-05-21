@@ -39,11 +39,11 @@
                             기간 선택
                         </option>
                         <option value="1000">전체</option>
-                        <option value="6">6</option>
-                        <option value="12">12</option>
-                        <option value="18">18</option>
-                        <option value="24">24</option>
-                        <option value="36">36</option>
+                        <option value="6">6달</option>
+                        <option value="12">12달</option>
+                        <option value="18">18달</option>
+                        <option value="24">24달</option>
+                        <option value="36">36달</option>
                     </select>
                 </div>
             </div>
