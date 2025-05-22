@@ -40,6 +40,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'user',
+    'goldsilvers',
     'articles',
     'products',
     # 'chatbot',

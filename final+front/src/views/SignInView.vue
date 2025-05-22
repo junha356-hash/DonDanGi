@@ -3,7 +3,7 @@
     <section style="position:relative;" class="mb-5 ">
       <img src="@/assets/community.jpg" alt="community_img" data-aos="zoom-out" data-aos-duration="800">
       <h1 data-aos="fade-down" data-aos-duration="1500">
-        <span class="brand-name">커뮤니티</span>
+        <span class="brand-name">로그인</span>
       </h1>
     </section>
     <h2>로그인</h2>
@@ -47,7 +47,6 @@ const signin = async () => {
     localStorage.setItem('token', data.key);
     // **username도 저장!**
     localStorage.setItem('username', username.value);   // 이 코드가 중요!
-    console.log('로그인 직후 저장된 username:', username.value);
     // 라우터 이동
     router.push({ name: 'MainPage' });
   } else {

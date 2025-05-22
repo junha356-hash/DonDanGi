@@ -2,7 +2,7 @@
   <section style="position:relative;" class="mb-5 ">
     <img src="@/assets/community.jpg" alt="community_img" data-aos="zoom-out" data-aos-duration="800">
     <h1 data-aos="fade-down" data-aos-duration="1500">
-      <span class="brand-name">{{ profile && profile.username ? profile.username : '' }}의 프로필</span>
+      <span class="brand-name">{{ profile && profile.username ? profile.username : '' }}님의 프로필</span>
     </h1>
   </section>
   <h1>{{ profile && profile.username ? profile.username : '' }} 프로필</h1>

@@ -1,95 +1,44 @@
 <template>
-  <section style="position:relative;" class="mb-5">
-    <img src="@/assets/gold_silver.webp" alt="gold_siver_img" data-aos="zoom-out" data-aos-duration="600">
-    <h1 data-aos="fade-down" data-aos-duration="1500">국제 금/은 시세</h1>
-  </section>
+  <div>
+    <section style="position:relative;" class="mb-5 ">
+      <img src="@/assets/gold_silver.webp" alt="gold_silver_img" data-aos="zoom-out" data-aos-duration="800">
+      <h1 data-aos="fade-down" data-aos-duration="1500">
+        <span class="brand-name">국제 금/은 시세</span>
+      </h1>
+    </section>
+    <h2>금/은 시세 그래프</h2>
+    <label>
+      시작일: <input type="date" v-model="startDate">
+      종료일: <input type="date" v-model="endDate">
+    </label>
+    <button @click="fetchPrices">시세 조회</button>
 
-  <div class="container-content" style="min-width: 1400px; min-height: 800px;">
-    <h1 class="fw-bold">국제 금/은 시세 조회</h1>
-    <hr>
-
-    <!-- 날짜 및 종류 선택 -->
-    <div class="d-flex gap-3 mb-4">
-      <input type="date" v-model="startDate" class="form-control" style="width: 200px;">
-      <input type="date" v-model="endDate" class="form-control" style="width: 200px;">
-      <button class="btn btn-warning" @click="selectedType = 'gold'">GOLD</button>
-      <button class="btn btn-secondary" @click="selectedType = 'silver'">SILVER</button>
+    <div v-if="goldData.length">
+      <h3>금 시세</h3>
+      <Gold_SilverComponent :data="goldData" xKey="date" yKey="price" />
     </div>
-
-    <!-- 그래프 출력 -->
-    <line-chart :chart-data="filteredChartData" />
+    <div v-if="silverData.length">
+      <h3>은 시세</h3>
+      <Gold_SilverComponent :data="silverData" xKey="date" yKey="price" />
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-// import * as XLSX from 'xlsx'
-import LineChart from '@/components/Gold_SilverComponent.vue'
+import { ref } from 'vue'
+import Gold_SilverComponent from '@/components/Gold_SilverComponent.vue'
 
-const rawData = ref([])
-const startDate = ref('')
-const endDate = ref('')
-const selectedType = ref('gold')
+const goldData = ref([])
+const silverData = ref([])
+const startDate = ref('2023-01-01')
+const endDate = ref('2024-04-30')
 
-const filteredChartData = computed(() => {
-  const data = rawData.value.filter(row => {
-    const date = row.date
-    return (!startDate.value || date >= startDate.value) &&
-           (!endDate.value || date <= endDate.value)
-  })
-
-  return {
-    labels: data.map(row => row.date),
-    datasets: [
-      {
-        label: selectedType.value === 'gold' ? 'Gold Price' : 'Silver Price',
-        data: data.map(row => row[selectedType.value]),
-        borderColor: selectedType.value === 'gold' ? 'gold' : 'gray',
-        tension: 0.4
-      }
-    ]
-  }
-})
-
-onMounted(async () => {
-  const res = await fetch('/data/metal_prices.xlsx') // public 폴더에 저장된 파일
-  const arrayBuffer = await res.arrayBuffer()
-  const workbook = XLSX.read(arrayBuffer, { type: 'array' })
-  const sheet = workbook.Sheets[workbook.SheetNames[0]]
-  const json = XLSX.utils.sheet_to_json(sheet)
-
-  rawData.value = json.map(row => ({
-    date: row.Date.slice(0, 10),  // 'YYYY-MM-DD'
-    gold: row.Gold,
-    silver: row.Silver
-  }))
-})
+const fetchPrices = async () => {
+  // 금
+  const goldRes = await fetch(`http://127.0.0.1:8000/api/v1/gold-prices/?start=${startDate.value}&end=${endDate.value}`)
+  goldData.value = await goldRes.json()
+  // 은
+  const silverRes = await fetch(`http://127.0.0.1:8000/api/v1/silver-prices/?start=${startDate.value}&end=${endDate.value}`)
+  silverData.value = await silverRes.json()
+}
 </script>
-
-<style scoped>
-.converter {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  text-align: center;
-}
-.input-group {
-  position: relative;
-}
-.input-text-addon {
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-weight: bold;
-  font-size: 20px;
-  pointer-events: none;
-}
-.form-control {
-  padding-right: 60px;
-}
-.table {
-  font-size: 15px;
-}
-</style>
