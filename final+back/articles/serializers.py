@@ -8,16 +8,17 @@ class ArticleListSerializer(serializers.ModelSerializer):
         model = Article
         fields = ('pk', 'title', 'content', 'username', )
 
-class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        # fields = '__all__'
-        exclude = ('user', )
-
 class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ['username']
+
+class ArticleSerializer(serializers.ModelSerializer):
+    user = UserSimpleSerializer(read_only=True)
+    class Meta:
+        model = Article
+        fields = '__all__'
+        # exclude = ('user', )
 
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSimpleSerializer(read_only=True)  # 또는 user.username

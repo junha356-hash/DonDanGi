@@ -8,8 +8,8 @@
   <h2>{{ article.title }}</h2>
   <p class="mb-2">{{ article.content }}</p>
   <div class="mb-3">
+    <button v-if="isMyArticle" @click="editArticle">수정</button> | 
     <button v-if="isMyArticle" @click="deleteArticle">삭제</button>
-    <button v-if="isMyArticle" @click="editArticle">수정</button>
   </div>
 
   <hr>

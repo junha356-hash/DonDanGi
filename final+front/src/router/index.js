@@ -15,6 +15,7 @@ import SignInView from '@/views/SignInView.vue'
 import UserProfileView from '@/views/UserProfileView.vue'
 import UserProfileSetupView from '@/views/UserProfileSetupView.vue'
 import ArticleListDetail from '@/components/ArticleListDetail.vue'
+import ArticleEditView from '@/views/ArticleEditView.vue'
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token')
@@ -118,6 +119,11 @@ const router = createRouter({
       path: '/articles/:articleId',
       name: 'articleDetail',
       component: ArticleListDetail,
+    },
+    {
+      path: '/articles/:articleId/edit',
+      name: 'articleEdit',
+      component: ArticleEditView,
     },
   ]
 })
