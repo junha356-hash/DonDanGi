@@ -39,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'user',
     'articles',
     'products',
     # 'chatbot',
@@ -108,15 +109,16 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5174',
-    'https://127.0.0.1:5174',
-    'http://localhost:5174',
-    'https://localhost:5174',
-    'http://mypjt.xyz',
-    'https://mypjt.xyz',
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:5174',
+#     'https://127.0.0.1:5174',
+#     'http://localhost:5174',
+#     'https://localhost:5174',
+#     'http://mypjt.xyz',
+#     'https://mypjt.xyz',
+# ]
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'config.urls'
 
@@ -177,3 +179,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
 
 # }
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

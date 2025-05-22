@@ -13,10 +13,14 @@ import ArticleCreateView from '../views/ArticleCreateView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import SignInView from '@/views/SignInView.vue'
 import UserProfileView from '@/views/UserProfileView.vue'
+import UserProfileSetupView from '@/views/UserProfileSetupView.vue'
+import ArticleListDetail from '@/components/ArticleListDetail.vue'
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token')
 }
+const publicPages = ['signin', 'signup']
+const authPages = ['profile', 'profileSetup']
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -105,26 +109,30 @@ const router = createRouter({
       name: 'profile',
       component: UserProfileView
     },
-    //     {
-    //       path:'/recommend',
-    //       component:RecommendView,
-    //       children:[
-    //         {path:'cosine', name:'cosine', component:RecommendCosineView},
-    //         {path:'ai/', name:'ai', component:RecommendAiView},
-    //       ]
-    //     },
+    {
+      path: '/profile/setup',
+      name: 'profileSetup',
+      component: UserProfileSetupView
+    },
+    {
+      path: '/articles/:articleId',
+      name: 'articleDetail',
+      component: ArticleListDetail,
+    },
   ]
 })
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['signin', 'signup']
-  const authRequired = !publicPages.includes(to.name)
-  const loggedIn = isAuthenticated()
-  if ( to.meta.requiresAuth && authRequired && !loggedIn) {
-    next({ name: 'signin' })  // 로그인 안했으면 로그인 페이지로 강제 이동
-  } else {
-    next()  // 그 외는 정상적으로 이동
+  // 1. 프로필/프로필수정 등은 로그인 필요
+  if (authPages.includes(to.name) && !isAuthenticated()) {
+    return next({ name: 'signin' })
   }
+  // 2. 로그인/회원가입 페이지 접근 시, 로그인 중이면 메인페이지로 리다이렉트
+  if (publicPages.includes(to.name) && isAuthenticated()) {
+    return next({ name: 'MainPage' })
+  }
+  // 3. 그 외는 모두 통과
+  next()
 })
 
 // router.beforeEach((to, from) => {

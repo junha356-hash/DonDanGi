@@ -1,12 +1,11 @@
 <template>
   <div>
-      <section style="position:relative;" class="mb-5 ">
-        <img src="@/assets/community.jpg" alt="community_img" 
-        data-aos="zoom-out" data-aos-duration="800">
-        <h1 data-aos="fade-down" data-aos-duration="1500">
-          <span class="brand-name">커뮤니티</span>
-        </h1>
-      </section>
+    <section style="position:relative;" class="mb-5 ">
+      <img src="@/assets/community.jpg" alt="community_img" data-aos="zoom-out" data-aos-duration="800">
+      <h1 data-aos="fade-down" data-aos-duration="1500">
+        <span class="brand-name">커뮤니티</span>
+      </h1>
+    </section>
     <h2>로그인</h2>
     <form @submit.prevent="signin">
       <input v-model="username" type="text" placeholder="아이디" required />
@@ -40,18 +39,19 @@ const signin = async () => {
       username: username.value,
       password: password.value
     })
-  })
-
-  const data = await res.json()  // ✅ data 먼저 정의
-  // console.log('🔐 로그인 응답 데이터:', data)
-
+  });
+  const data = await res.json();
   if (res.ok) {
-    const token = data.key || data.access_token
-    userStore.login(token)              // ✅ 상태 반영
-    console.log('로그인 성공, 메인으로 이동')
-    router.push({ name: 'MainPage' })
+    userStore.login(data.key) 
+    // 토큰 저장
+    localStorage.setItem('token', data.key);
+    // **username도 저장!**
+    localStorage.setItem('username', username.value);   // 이 코드가 중요!
+    console.log('로그인 직후 저장된 username:', username.value);
+    // 라우터 이동
+    router.push({ name: 'MainPage' });
   } else {
-    alert('로그인 실패: ' + JSON.stringify(data))
+    alert('로그인 실패: ' + (data.non_field_errors || JSON.stringify(data)));
   }
 }
 </script>

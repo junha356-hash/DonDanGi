@@ -57,7 +57,7 @@
                 </RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink :to="{ name: 'profile' }" class="nav-link">
+                <RouterLink :to="{ name: 'profile' }" class="nav-link" :style="{ color: isScrolledColor }">
                   내 프로필
                 </RouterLink>
               </li>
@@ -84,24 +84,33 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { useNavbarStore } from './stores/navbar'
 import { useUserStore } from './stores/user'
+import { createPinia } from 'pinia'
 // import VideoList from '@/views/VideoList.vue'
 // import VideoListDetail from '@/components/VideoListDetail.vue'
 // import {}
 
-const router = useRoute()
+const router = useRouter()
+const route = useRoute()
 const userStore = useUserStore()
 const navbarStore = useNavbarStore()
 const isScrolled = ref(false)
 const isScrolledColor = ref('')
 const isLoggedIn = computed(() => userStore.isLogin)
 
+const signin = async () => {
+  if (res.ok) {
+    userStore.login(data.key)       // 이걸 반드시 호출!
+    router.push({ name: 'MainPage' })
+  }
+}
+
 const logout = () => {
   userStore.logout()
-  router.push({ name: 'signin' })
+  router.push({ name: 'MainPage' })
 }
 
 const handleScroll = () => {
