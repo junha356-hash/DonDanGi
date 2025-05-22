@@ -11,15 +11,6 @@
                 <img src="@/assets/logo.webp" alt="logo_img" class="navbar-logo">
               </RouterLink>
             </li>
-            <!-- <li class="nav-item" v-if="!useNavbarStore.isLoggedIn">
-            <RouterLink :to="{ name: 'login'}" class="nav-item" @click="navbarStore.closeMenu">
-              로그인
-            </RouterLink>
-          </li>
-
-          <li class="nav-item" v-else>
-            <a href="#" class="nav-item" @click="useNavbarStore.logout(); navbarStore.closeMenu()">로그아웃</a>
-          </li> -->
           </ul>
 
           <!-- 햄버거 버튼 -->

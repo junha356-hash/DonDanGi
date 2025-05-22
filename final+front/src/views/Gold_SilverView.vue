@@ -8,105 +8,61 @@
     <h1 class="fw-bold">국제 금/은 시세 조회</h1>
     <hr>
 
-    <div class="row">
-      <div class="ms-4 col-8 mt-4">
-        <div class="row" style="height: 60px; border:2px gray solid;">
-          <div class="col-6 d-flex justify-content-center"
-            :style="[{ backgroundColor: selectedMetal === 'gold' ? '#0d6efd' : 'transparent' },
-                    { color: selectedMetal === 'gold' ? 'white' : 'black' }]"
-            @click="selectMetal('gold')">
-            <div class="d-flex align-items-center justify-content-center">
-              <p class="fs-3 fw-bold mb-0">GOLD</p>
-            </div>
-          </div>
-
-          <div class="col-6 d-flex justify-content-center" style="border-left: 2px gray solid;"
-            :style="[{ backgroundColor: selectedMetal === 'silver' ? '#0d6efd' : 'transparent' },
-                    { color: selectedMetal === 'silver' ? 'white' : 'black' }]"
-            @click="selectMetal('silver')">
-            <div class="d-flex align-items-center justify-content-center">
-              <p class="fs-3 fw-bold mb-0">SILVER</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 시세 그래프 + 표 (공통) -->
-        <div v-if="metalData.length > 0" class="mt-4">
-          <MetalChart :data="metalData" :label="label" />
-          <table class="table table-bordered text-center align-middle mt-4">
-            <thead class="table-light">
-              <tr>
-                <th>금속 종류</th>
-                <th>{{ label }}</th>
-              </tr>
-              <tr>
-                <th>최근 시세</th>
-                <th><span class="text-success">{{ latestPrice }} USD/oz</span></th>
-              </tr>
-              <tr>
-                <th>기준일</th>
-                <th>✔ {{ latestDate }}</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-      </div>
+    <!-- 날짜 및 종류 선택 -->
+    <div class="d-flex gap-3 mb-4">
+      <input type="date" v-model="startDate" class="form-control" style="width: 200px;">
+      <input type="date" v-model="endDate" class="form-control" style="width: 200px;">
+      <button class="btn btn-warning" @click="selectedType = 'gold'">GOLD</button>
+      <button class="btn btn-secondary" @click="selectedType = 'silver'">SILVER</button>
     </div>
+
+    <!-- 그래프 출력 -->
+    <line-chart :chart-data="filteredChartData" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import MetalChart from '@/components/Gold_SilverComponent.vue'
+import { ref, computed, onMounted } from 'vue'
+// import * as XLSX from 'xlsx'
+import LineChart from '@/components/Gold_SilverComponent.vue'
 
-const API_KEY = 'tiU6FJxNqUQeA6ywzyk6'
+const rawData = ref([])
+const startDate = ref('')
+const endDate = ref('')
+const selectedType = ref('gold')
 
-const selectedMetal = ref('gold') // gold 또는 silver
-const metalData = ref([])
-const label = ref('')
-const latestPrice = ref(null)
-const latestDate = ref('')
+const filteredChartData = computed(() => {
+  const data = rawData.value.filter(row => {
+    const date = row.date
+    return (!startDate.value || date >= startDate.value) &&
+           (!endDate.value || date <= endDate.value)
+  })
 
-const formatDate = (d) => d.toISOString().split('T')[0]
-
-const fetchMetal = async (type) => {
-  const dataset = type === 'gold' ? 'LBMA/GOLD' : 'LBMA/SILVER'
-  label.value = type === 'gold' ? 'Gold (USD/oz)' : 'Silver (USD/oz)'
-
-  try {
-    const endDate = new Date()
-    const startDate = new Date()
-    startDate.setFullYear(endDate.getFullYear() - 1)
-
-    const { data } = await axios.get(`https://data.nasdaq.com/api/v3/datasets/${dataset}.json`, {
-      params: {
-        api_key: API_KEY,
-        start_date: formatDate(startDate),
-        end_date: formatDate(endDate),
-        order: 'asc'
+  return {
+    labels: data.map(row => row.date),
+    datasets: [
+      {
+        label: selectedType.value === 'gold' ? 'Gold Price' : 'Silver Price',
+        data: data.map(row => row[selectedType.value]),
+        borderColor: selectedType.value === 'gold' ? 'gold' : 'gray',
+        tension: 0.4
       }
-    })
-
-    const values = data.dataset.data.map(row => [row[0], row[1] || row[2]])
-    metalData.value = values
-    const last = values.at(-1)
-    latestDate.value = last[0]
-    latestPrice.value = last[1]
-  } catch (err) {
-    console.error(`시세 불러오기 실패 (${type})`, err)
+    ]
   }
-}
+})
 
-const selectMetal = (type) => {
-  if (selectedMetal.value !== type) {
-    selectedMetal.value = type
-    fetchMetal(type)
-  }
-}
+onMounted(async () => {
+  const res = await fetch('/data/metal_prices.xlsx') // public 폴더에 저장된 파일
+  const arrayBuffer = await res.arrayBuffer()
+  const workbook = XLSX.read(arrayBuffer, { type: 'array' })
+  const sheet = workbook.Sheets[workbook.SheetNames[0]]
+  const json = XLSX.utils.sheet_to_json(sheet)
 
-onMounted(() => {
-  fetchMetal(selectedMetal.value)
+  rawData.value = json.map(row => ({
+    date: row.Date.slice(0, 10),  // 'YYYY-MM-DD'
+    gold: row.Gold,
+    silver: row.Silver
+  }))
 })
 </script>
 

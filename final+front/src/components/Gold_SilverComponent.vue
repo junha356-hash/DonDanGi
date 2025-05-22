@@ -1,62 +1,32 @@
 <template>
-  <div>
-    <Line v-if="chartData" :data="chartData" :options="chartOptions" />
-  </div>
+  <Line :data="chartData" :options="options" />
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
 import { Line } from 'vue-chartjs'
 import {
   Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
   LineElement,
-  CategoryScale,
+  PointElement,
   LinearScale,
-  PointElement
+  Title,
+  CategoryScale,
+  Tooltip,
+  Legend
 } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement)
+ChartJS.register(LineElement, PointElement, LinearScale, Title, CategoryScale, Tooltip, Legend)
 
-const props = defineProps({
-  data: Array, // [['2024-05-20', 2400.15], ...]
-  label: String // 'Gold' or 'Silver'
-})
+defineProps(['chartData'])
 
-const chartData = ref(null)
-
-watch(() => props.data, (newData) => {
-  if (!newData) return
-  chartData.value = {
-    labels: newData.map(d => d[0]),
-    datasets: [
-      {
-        label: props.label,
-        data: newData.map(d => d[1]),
-        fill: false,
-        tension: 0.1
-      }
-    ]
-  }
-}, { immediate: true })
-
-const chartOptions = {
+const options = {
   responsive: true,
   plugins: {
-    legend: {
-      position: 'top'
-    }
+    legend: { position: 'top' },
+    tooltip: { mode: 'index' }
   },
   scales: {
-    y: {
-      beginAtZero: false
-    }
+    y: { beginAtZero: false }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
