@@ -33,12 +33,15 @@ SECRET_KEY = 'django-insecure-l!83^=75lzbfg%q62k-kb*#(7q45lyhagvfc*j+xrfnmm-1$8%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+FSS_API_KEY = env('FSS_API_KEY')
+
 ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'finance',
     'user',
     'articles',
     'products',
