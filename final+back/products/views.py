@@ -87,6 +87,7 @@ def save_products(request):
         serializers=SavingProductsSerializer(data=save_deposit)
         if serializers.is_valid(raise_exception=True):
             serializers.save()
+
     for opt in response.get('result').get('optionList'):
         # product=opt.get('product')
         fin_prdt_cd=opt.get('fin_prdt_cd')

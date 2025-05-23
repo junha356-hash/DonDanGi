@@ -35,6 +35,8 @@ DEBUG = True
 
 FSS_API_KEY = env('FSS_API_KEY')
 
+OPENAI_API_KEY = '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'
+
 ALLOWED_HOSTS = []
 
 
@@ -45,7 +47,6 @@ INSTALLED_APPS = [
     'user',
     'articles',
     'products',
-    'recommendai',
     'rest_framework',
     'rest_framework.authtoken',
     # 'rest_framework_simplejwt.token_blacklist',

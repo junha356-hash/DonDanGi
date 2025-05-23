@@ -24,11 +24,10 @@ from django.conf.urls.static import static
 # )
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/backend/products/', include('products.urls')),
+    path('api/v1/products/', include('products.urls')),
     path('api/v1/', include('articles.urls')),
     path('api/v1/user/', include('user.urls')),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
     path('api/v1/finance/', include('finance.urls')),
-    path('api/v1/backend/recommend/', include('recommendai.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
