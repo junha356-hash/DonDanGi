@@ -16,6 +16,8 @@ import UserProfileView from '@/views/UserProfileView.vue'
 import UserProfileSetupView from '@/views/UserProfileSetupView.vue'
 import ArticleListDetail from '@/components/ArticleListDetail.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
+import RecommendView from '@/views/Recommend/RecommendView.vue'
+import RecommendAiView from '@/views/Recommend/RecommendAiView.vue'
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token')
@@ -124,6 +126,16 @@ const router = createRouter({
       path: '/articles/:articleId/edit',
       name: 'articleEdit',
       component: ArticleEditView,
+    },
+    {
+      path: '/recommend',
+      name: 'recommend',
+      component: RecommendView,
+    },
+    {
+      path: '/recommendAi',
+      name: 'recommendAi',
+      component: RecommendAiView,
     },
   ]
 })

@@ -7,19 +7,6 @@ from .serializers import ProfileSerializer
 from django.shortcuts import get_object_or_404
 from .models import Profile
 
-# @api_view(['GET', 'PUT'])
-# @permission_classes([IsAuthenticated])
-# def user_profile_view(request, pk):
-#     profile = request.user.profile
-#     if request.method == 'GET':
-#         serializer = ProfileSerializer(profile)
-#         return Response(serializer.data)
-#     elif request.method == 'PUT':
-#         serializer = ProfileSerializer(profile, data=request.data, partial=True)
-#         if serializer.is_valid(raise_exception=True):
-#             serializer.save()
-#             return Response(serializer.data)
-
 @api_view(['GET', 'PUT'])
 @permission_classes([IsAuthenticated])
 def user_profile_view(request):
