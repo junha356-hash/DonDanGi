@@ -40,10 +40,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'user',
-    'goldsilvers',
     'articles',
     'products',
-    # 'chatbot',
+    'recommendai',
     'rest_framework',
     'rest_framework.authtoken',
     # 'rest_framework_simplejwt.token_blacklist',

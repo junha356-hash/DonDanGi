@@ -29,9 +29,8 @@ urlpatterns = [
     path('api/v1/user/', include('user.urls')),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('api/v1/', include('goldsilvers.urls')),
     # path('accounts/', include('dj_rest_auth.urls')),
     # path('accounts/api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     # path('accounts/api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # path('api/v1/backend/recommend/', include('chatbot.urls')),
+    path('api/v1/backend/recommend/', include('recommendai.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class GoldsilversConfig(AppConfig):
+class RecommendaiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'goldsilvers'
+    name = 'recommendai'
