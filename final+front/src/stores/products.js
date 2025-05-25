@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const useProductStore = defineStore('product', () => {
   const aiProducts = ref(null)
-
+  
   const fetchAiProducts = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -12,8 +12,8 @@ export const useProductStore = defineStore('product', () => {
         alert('로그인이 필요합니다!')
         return
       }
-      const res = await axios.get('http://127.0.0.1:8000/api/v1/recommendAi/recommend/ai/', {
-        headers: {
+      const res = await axios.post('http://127.0.0.1:8000/api/v1/recommendAi/recommend/ai/', { purpose }, 
+        { headers: {
           Authorization: `Token ${token}`,
         },
       })
@@ -25,6 +25,11 @@ export const useProductStore = defineStore('product', () => {
       alert('추천 API 호출 실패: ' + (err?.response?.status || '') + '\n' + (err?.response?.data?.detail || err.message))
     }
   }
+  
+  const resetProducts = () => {
+    aiProducts.value = null
+    // 필요한 경우, 다른 관련 상태도 초기화
+  }
 
-  return { aiProducts, fetchAiProducts }
+  return { aiProducts, fetchAiProducts, resetProducts, }
 })

@@ -27,11 +27,11 @@
                   로그인
                 </RouterLink>
               </li>
-                <li class="nav-item" v-else>
-                  <button class="nav-link btn btn-link" @click="logout" :style="{ color: isScrolledColor }">
-                    로그아웃
-                  </button>
-                </li>
+              <li class="nav-item" v-else>
+                <button class="nav-link btn btn-link" @click="logout" :style="{ color: isScrolledColor }">
+                  로그아웃
+                </button>
+              </li>
               <li class="nav-item">
                 <RouterLink :to="{
                   name: 'product',
@@ -120,6 +120,9 @@ const signin = async () => {
 
 const logout = () => {
   userStore.logout()
+  localStorage.removeItem('token')
+  localStorage.removeItem('username')
+  productStore.resetProducts()
   router.push({ name: 'MainPage' })
 }
 

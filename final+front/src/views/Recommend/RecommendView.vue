@@ -1,52 +1,47 @@
 <template>
+  <section style="position:relative;" class="mb-5 ">
+    <img src="@/assets/recommend.jpg" alt="recommend_img" data-aos="zoom-out" data-aos-duration="800">
+    <h1 data-aos="fade-down" data-aos-duration="1500">
+      <span class="brand-name">AI 금융 상품 추천</span>
+    </h1>
+  </section>
   <div>
-    <section style="position:relative;" class="mb-5 ">
-      <img src="@/assets/recommend.jpg" alt="recommend_img" data-aos="zoom-out" data-aos-duration="800">
-      <h1 data-aos="fade-down" data-aos-duration="1500">
-        <span class="brand-name">커뮤니티</span>
-      </h1>
-    </section>
     <h1>AI 금융 상품 추천</h1>
-    <button @click="onClickRecommend">추천 받기</button>
     <hr>
-    <div v-if="store.aiProducts">
-      <h2>예금 추천</h2>
-      <div>
-        <span>상품명: {{ store.aiProducts['예금']['상품 이름'] }}</span><br>
-        <span>은행: {{ store.aiProducts['예금']['은행'] }}</span><br>
-        <span>금리: {{ store.aiProducts['예금']['금리'] }}%</span><br>
-        <span>저축기간: {{ store.aiProducts['예금']['저축 기간'] }}개월</span><br>
-        <span>추천 이유: {{ store.aiProducts['예금']['추천 이유'] }}</span>
-      </div>
-      <hr>
-      <h2>적금 추천</h2>
-      <div>
-        <span>상품명: {{ store.aiProducts['적금']['상품 이름'] }}</span><br>
-        <span>은행: {{ store.aiProducts['적금']['은행'] }}</span><br>
-        <span>금리: {{ store.aiProducts['적금']['금리'] }}%</span><br>
-        <span>저축기간: {{ store.aiProducts['적금']['저축 기간'] }}개월</span><br>
-        <span>추천 이유: {{ store.aiProducts['적금']['추천 이유'] }}</span>
-      </div>
-    </div>
-    <div v-else>
-      <p>아직 추천 데이터가 없습니다. 버튼을 눌러주세요.</p>
+    <textarea v-model="purpose" placeholder="예) 전세집 마련, 첫 적금, 목돈 모으기 등 목적을 입력해주세요"></textarea>
+    <button @click="onClickRecommend">추천 받기</button>
+    <div v-if="result">
+      <pre>{{ result }}</pre>
     </div>
   </div>
+  <hr>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import axios from 'axios'
 import { useProductStore } from '@/stores/products'
+import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
+const purpose = ref('')
+const result = ref('')
 const store = useProductStore()
 const router = useRouter()
+const userStore = useUserStore()
 
-const onClickRecommend = () => {
+
+const onClickRecommend = async () => {
   const token = localStorage.getItem('token')
   if (!token) {
     router.push({ name: 'signin' })   // 로그인 페이지로 이동
     return
   }
-  store.fetchAiProducts()   // 로그인 상태면 추천 기능 실행
+  const res = await axios.post(
+    'http://localhost:8000/api/v1/recommendAi/ai_product/',
+    { purpose: purpose.value },
+    { headers: { Authorization: `Token ${token}` } }
+  )
+  result.value = res.data.result
 }
 </script>
