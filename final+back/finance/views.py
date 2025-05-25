@@ -1,4 +1,3 @@
-# finance/views.py 일부 예시
 import requests
 from django.http import JsonResponse
 from django.conf import settings

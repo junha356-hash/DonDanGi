@@ -17,7 +17,6 @@ import UserProfileSetupView from '@/views/UserProfileSetupView.vue'
 import ArticleListDetail from '@/components/ArticleListDetail.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
 import RecommendView from '@/views/Recommend/RecommendView.vue'
-import RecommendAiView from '@/views/Recommend/RecommendAiView.vue'
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token')
@@ -133,9 +132,9 @@ const router = createRouter({
       component: RecommendView,
     },
     {
-      path: '/recommendAi',
-      name: 'recommendAi',
-      component: RecommendAiView,
+      path: '/recommend',
+      name: 'recommend',
+      component: RecommendView,
     },
   ]
 })
@@ -152,13 +151,5 @@ router.beforeEach((to, from, next) => {
   // 3. 그 외는 모두 통과
   next()
 })
-
-// router.beforeEach((to, from) => {
-//   const store = useUserStore()
-//   if ( (to.name === 'createArticle' || to.name === 'updateArticle' || to.name === 'cosine' || to.name === 'ai') && !store.isLogin ) {
-//     window.alert('로그인이 필요합니다')
-//     return {name:'login'}
-//   }
-// })
 
 export default router

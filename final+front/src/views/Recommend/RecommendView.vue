@@ -1,57 +1,52 @@
 <template>
-  <section style="position:relative;" class="mb-5">
-    <img src="@/assets/recommend.jpg" alt="recommend_img" data-aos="zoom-out" data-aos-duration="600"
-      style="filter:brightness(0.5)">
-    <h1 data-aos="fade-down" data-aos-duration="1500">상품 추천 서비스</h1>
-    <h4 data-aos="fade-down" data-aos-duration="1500">GPT-4o-mini를 사용한</h4>
-    <h4 data-aos="fade-down" data-aos-duration="1500">금융 상품 추천 서비스를 제공합니다.</h4>
-  </section>
-  <div class="container-content d-flex flex-column align-items-center" style="max-width: 1400px;">
-    <h1 class="fw-bold">금융 상품 추천 서비스</h1>
+  <div>
+    <section style="position:relative;" class="mb-5 ">
+      <img src="@/assets/recommend.jpg" alt="recommend_img" data-aos="zoom-out" data-aos-duration="800">
+      <h1 data-aos="fade-down" data-aos-duration="1500">
+        <span class="brand-name">커뮤니티</span>
+      </h1>
+    </section>
+    <h1>AI 금융 상품 추천</h1>
+    <button @click="onClickRecommend">추천 받기</button>
     <hr>
-
-    <div class="ms-4 mt-5" style="min-width:1000px;">
-      <div class="row" style="height: 60px; border:2px gray solid;">
-        <div 
-          class="d-flex justify-content-center" 
-          :style="[ 
-            { backgroundColor: isSelected === 'ai' ? '#0d6efd' : 'transparent' },
-            { color: isSelected === 'ai' ? 'white' : 'black' } 
-          ]" 
-          @click="goBoard('ai')"
-        >
-          <div class="d-flex align-items-center justify-content-center">
-            <p class="fs-3 fw-bold mb-0" style="text-decoration: none;">
-              AI 상품 추천
-            </p>
-          </div>
-        </div>
+    <div v-if="store.aiProducts">
+      <h2>예금 추천</h2>
+      <div>
+        <span>상품명: {{ store.aiProducts['예금']['상품 이름'] }}</span><br>
+        <span>은행: {{ store.aiProducts['예금']['은행'] }}</span><br>
+        <span>금리: {{ store.aiProducts['예금']['금리'] }}%</span><br>
+        <span>저축기간: {{ store.aiProducts['예금']['저축 기간'] }}개월</span><br>
+        <span>추천 이유: {{ store.aiProducts['예금']['추천 이유'] }}</span>
+      </div>
+      <hr>
+      <h2>적금 추천</h2>
+      <div>
+        <span>상품명: {{ store.aiProducts['적금']['상품 이름'] }}</span><br>
+        <span>은행: {{ store.aiProducts['적금']['은행'] }}</span><br>
+        <span>금리: {{ store.aiProducts['적금']['금리'] }}%</span><br>
+        <span>저축기간: {{ store.aiProducts['적금']['저축 기간'] }}개월</span><br>
+        <span>추천 이유: {{ store.aiProducts['적금']['추천 이유'] }}</span>
       </div>
     </div>
+    <div v-else>
+      <p>아직 추천 데이터가 없습니다. 버튼을 눌러주세요.</p>
+    </div>
   </div>
-  <RecommendAiView />
-
 </template>
 
 <script setup>
-import { useProductStore } from '@/stores/D_S'
-import { ref, watch } from 'vue'
-import { useUserStore } from '@/stores/user'
+import { useProductStore } from '@/stores/products'
 import { useRouter } from 'vue-router'
-import RecommendAiView from './RecommendAiView.vue'
 
 const store = useProductStore()
-const userStore = useUserStore()
 const router = useRouter()
-const isSelected = ref('ai')
 
-const goBoard = (type) => {
-  isSelected.value = type
-  if (type === 'ai') {
-    router.push({ name: 'ai', params: { 'username': userStore.username } })
-  } else {
-    router.push({ name: 'cosine' })
+const onClickRecommend = () => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    router.push({ name: 'signin' })   // 로그인 페이지로 이동
+    return
   }
+  store.fetchAiProducts()   // 로그인 상태면 추천 기능 실행
 }
-
 </script>

@@ -9,7 +9,6 @@ RISK_CHOICES = [
     ('balanced', '균형적'),
 ]
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     age = models.PositiveIntegerField(null=True, blank=True)

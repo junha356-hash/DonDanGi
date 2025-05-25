@@ -1,5 +1,8 @@
 // stores/user.js
 import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
 export const useUserStore = defineStore('user', {
   state: () => ({
@@ -17,5 +20,6 @@ export const useUserStore = defineStore('user', {
     checkLogin() {
       this.isLogin = !!localStorage.getItem('token')
     }
-  }
+  },
+  
 })
