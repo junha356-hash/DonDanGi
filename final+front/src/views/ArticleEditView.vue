@@ -1,19 +1,45 @@
 <template>
-  <div>
     <section style="position:relative;" class="mb-5 ">
-      <img src="@/assets/community.jpg" alt="community_img" data-aos="zoom-out" data-aos-duration="800">
+      <img src="@/assets/community.jpg" alt="community_img" 
+      data-aos="zoom-out" data-aos-duration="800">
       <h1 data-aos="fade-down" data-aos-duration="1500">
-        <span class="brand-name">{{ editTitle }}</span>
+        <span class="brand-name">커뮤니티</span>
       </h1>
     </section>
-    <h2>게시글 수정</h2>
-    <form @submit.prevent="updateArticle">
-      <input v-model="editTitle" required />
-      <textarea v-model="editContent" required />
-      <button type="submit">저장</button>
-    </form>
-  </div>
+    <div class="col-lg-8 mx-auto">
+      <!-- 썸네일 및 타이틀 영역 -->
+      <!-- 수정 폼 -->
+      <div class="bg-white border rounded-3 p-4 shadow-sm mb-4">
+        <form @submit.prevent="updateArticle">
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-primary">제목</label>
+            <input
+              v-model="editTitle"
+              placeholder="제목을 입력하세요"
+              class="form-control"
+              maxlength="100"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-primary">내용</label>
+            <textarea
+              v-model="editContent"
+              placeholder="내용을 입력하세요"
+              rows="8"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary px-4">저장</button>
+            <button type="button" class="btn btn-outline-secondary px-4" @click="goBack">취소</button>
+          </div>
+        </form>
+      </div>
+    </div>
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -54,4 +80,9 @@ const updateArticle = async () => {
     alert('수정 실패')
   }
 }
+
+const goBack = () => {
+  router.back()
+}
+
 </script>

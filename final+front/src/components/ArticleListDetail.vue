@@ -2,43 +2,66 @@
   <section style="position:relative;" class="mb-5 ">
     <img src="@/assets/community.jpg" alt="community_img" data-aos="zoom-out" data-aos-duration="800">
     <h1 data-aos="fade-down" data-aos-duration="1500">
-      <span class="brand-name">{{ article.title }}</span>
+      <span class="brand-name">커뮤니티</span>
     </h1>
   </section>
-  <h2>{{ article.title }}</h2>
-  <p class="mb-2">{{ article.content }}</p>
-  <div class="mb-3">
-    <button v-if="isMyArticle" @click="editArticle">수정</button> | 
-    <button v-if="isMyArticle" @click="deleteArticle">삭제</button>
-  </div>
+  <div class="container py-4">
+    <div class="col-lg-8 mx-auto">
+      <!-- 썸네일 및 타이틀 영역 -->
+      <div class="article-header mb-4 p-0">
+        <h1 class="article-title display-5 fw-bold text-primary border-bottom border-3 pb-2 mt-3 text-center">
+          {{ article.title }}
+        </h1>
+      </div>
 
-  <hr>
-  <h4>댓글</h4>
-  <div v-if="!isLoggedIn">
-    <p class="text-secondary">댓글은 로그인 시 볼 수 있습니다.</p>
+      <!-- 본문 및 버튼 영역 -->
+      <div class="bg-white border rounded-3 p-4 shadow-sm mb-4">
+        <p class="fs-5 mb-2">{{ article.content }}</p>
+        <div class="d-flex gap-2 mb-3" v-if="isMyArticle">
+          <button class="btn btn-outline-primary btn-sm" @click="editArticle">수정</button>
+          <button class="btn btn-outline-danger btn-sm" @click="deleteArticle">삭제</button>
+        </div>
+      </div>
+
+      <!-- 댓글 영역 -->
+      <div class="comment-section p-4 border rounded-3 shadow-sm mb-4 bg-light">
+        <h4 class="mb-3 text-primary border-bottom pb-2">댓글</h4>
+        <div v-if="!isLoggedIn">
+          <p class="text-secondary">댓글은 로그인 시 볼 수 있습니다.</p>
+        </div>
+        <div v-else>
+          <ul class="list-unstyled">
+            <li v-for="comment in comments" :key="comment.id" class="mb-3 border-bottom pb-2">
+              <b class="text-primary">{{ comment.user.username }}</b>
+              <span v-if="editingId !== comment.id" class="ms-2">{{ comment.content }}</span>
+              <input v-else v-model="editContent" @keyup.enter="updateComment(comment.id)"
+              class="form-control d-inline w-auto ms-2" style="max-width:300px;" />
+              <small class="text-secondary ms-2" style="font-size: 0.9em;">
+                {{ comment.created_at }}
+              </small>
+
+              <div class="d-inline ms-3" v-if="isMyComment(comment)">
+                <button v-if="editingId !== comment.id" class="btn btn-link btn-sm p-0 text-primary"
+                  @click="startEdit(comment)">수정</button>
+                <button v-if="editingId === comment.id" class="btn btn-link btn-sm p-0 text-success"
+                  @click="updateComment(comment.id)">저장</button>
+                <span v-if="editingId !== comment.id">|</span>
+                <button class="btn btn-link btn-sm p-0 text-danger" @click="deleteComment(comment.id)">삭제</button>
+              </div>
+            </li>
+          </ul>
+          <form @submit.prevent="createComment" class="d-flex align-items-center mt-3 gap-2">
+            <input v-model="newComment" placeholder="댓글 입력" required class="form-control" style="max-width:350px;" />
+            <button type="submit" class="btn btn-primary btn-sm">작성</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <RouterLink :to="{ name: 'home' }" class="btn btn-outline-primary mt-3 px-4">뒤로 가기</RouterLink>
+      </div>
+    </div>
   </div>
-  <div v-else>
-    <ul>
-      <li v-for="comment in comments" :key="comment.id">
-        <b>{{ comment.user.username }}</b>:
-        <span v-if="editingId !== comment.id">{{ comment.content }}</span>
-        <input v-else v-model="editContent" @keyup.enter="updateComment(comment.id)" />
-        <!-- 본인 댓글만 수정/삭제 버튼 노출 -->
-         <br>
-        <template v-if="isMyComment(comment)">
-          <button v-if="editingId !== comment.id" @click="startEdit(comment)">수정</button>
-          <button v-if="editingId === comment.id" @click="updateComment(comment.id)">저장</button>
-          | <button @click="deleteComment(comment.id)">삭제</button>
-        </template>
-      </li>
-    </ul>
-    <form @submit.prevent="createComment">
-      <input v-model="newComment" placeholder="댓글 입력" required />
-      <button type="submit">작성</button>
-    </form>
-  </div>
-  <hr>
-  <RouterLink :to="{ name: 'home' }">뒤로 가기</RouterLink>
 </template>
 
 <script setup>
@@ -158,7 +181,7 @@ const updateComment = async (commentId) => {
 onMounted(() => {
   fetchArticle()
   if (isLoggedIn.value) {
-    fetchComments().then(() => {})
+    fetchComments().then(() => { })
   }
 })
 
