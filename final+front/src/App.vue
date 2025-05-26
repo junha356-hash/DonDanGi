@@ -8,7 +8,7 @@
               <RouterLink :to="{ name: 'MainPage' }" class="navbar-brand" @click="navbarStore.closeMenu"
                 :style="{ color: isScrolledColor }">
                 <!-- <h1>메인 페이지</h1> -->
-                <img src="@/assets/logo.webp" alt="logo_img" class="navbar-logo">
+                <img src="@/assets/logo.png" alt="logo_img" class="navbar-logo">
               </RouterLink>
             </li>
           </ul>

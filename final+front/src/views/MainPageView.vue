@@ -14,7 +14,7 @@
 <script setup>
   import { ref } from 'vue'
   import ArticleComponent from '@/components/ArticleComponent.vue';  
-  import logoImg from '@/assets/logo.webp'
+  import logoImg from '@/assets/logo.png'
 
 </script>
 

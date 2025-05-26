@@ -6,7 +6,7 @@
   <div class="container-content d-flex justify-content-center align-items-center">
       <main>
         <div class="py-5 text-center" id="errorContainer">
-          <img class="d-block mx-auto mb-4" src="@/assets/logo.webp" width="150" height="150">
+          <img class="d-block mx-auto mb-4" src="@/assets/logo.png" width="150" height="150">
           <h2 class="fw-bold mb-5" style="font-size: 50px;">회원 가입</h2>
         </div>
         <div class="row g-5" style="margin-bottom: 100px; max-width: 1200px;">

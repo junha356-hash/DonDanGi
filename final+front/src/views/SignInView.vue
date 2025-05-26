@@ -6,7 +6,7 @@
 
   <div class="container-content my-5" id="loginbox">
     <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="@/assets/logo.webp" width="150" height="150">
+      <img class="d-block mx-auto mb-4" src="@/assets/logo.png" width="150" height="150">
     </div>
 
     <main class="form-signin" style="min-height:500px;">
