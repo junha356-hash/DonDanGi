@@ -17,6 +17,7 @@ import UserProfileSetupView from '@/views/UserProfileSetupView.vue'
 import ArticleListDetail from '@/components/ArticleListDetail.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
 import RecommendView from '@/views/Recommend/RecommendView.vue'
+import ExchangeView from '@/views/ExchangeView.vue'
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token')
@@ -132,9 +133,9 @@ const router = createRouter({
       component: RecommendView,
     },
     {
-      path: '/recommend',
-      name: 'recommend',
-      component: RecommendView,
+      path: '/exchange',
+      name: 'exchange',
+      component: ExchangeView
     },
   ]
 })

@@ -5,8 +5,6 @@
     <h1 data-aos="fade-down" data-aos-duration="1500">
       <span class="brand-name">돈단지</span>
     </h1>
-    <!-- 이미지 넣긴 했는데 의도한대로 출력이 안돼서 일단 주석처리, 수정 필요 -->
-    <!-- <img :src="logoImg" alt="logo_img" data-aos="fade-down" data-aos-duration="1500"> -->
   </section>
   <div class="container-content">
     <ArticleComponent/>

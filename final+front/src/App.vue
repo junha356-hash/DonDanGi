@@ -46,6 +46,11 @@
                 </RouterLink>
               </li>
               <li class="nav-item">
+                <RouterLink :to="{ name: 'exchange' }" class="nav-link" :style="{ color: isScrolledColor }">
+                  국제 환율 계산
+                </RouterLink>
+              </li>
+              <li class="nav-item">
                 <RouterLink :to="{ name: 'gold_silver' }" class="nav-link" :style="{ color: isScrolledColor }">
                   국제 금/은 시세
                 </RouterLink>
@@ -68,14 +73,9 @@
               </li>
               <li class="nav-item">
                 <RouterLink :to="{ name: 'recommend' }" class="nav-link" :style="{ color: isScrolledColor }">
-                  금융 상품 추천
+                  AI 금융 상품 추천
                 </RouterLink>
               </li>
-              <!-- <li class="nav-item">
-                <RouterLink :to="{ name: 'Ai' }" class="nav-link" :style="{ color: isScrolledColor }">
-                  Ai 기반 상품 추천
-                </RouterLink>
-              </li> -->
             </ul>
           </div>
         </div>
