@@ -154,3 +154,4 @@ def saving_option_detail(request,pid):
     option=get_list_or_404(SavingOptions,id=pid)
     serializer=SavingOptionsSerializer(option,many=True)
     return Response(serializer.data)
+

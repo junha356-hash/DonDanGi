@@ -18,6 +18,7 @@ import ArticleListDetail from '@/components/ArticleListDetail.vue'
 import ArticleEditView from '@/views/ArticleEditView.vue'
 import RecommendView from '@/views/Recommend/RecommendView.vue'
 import ExchangeView from '@/views/ExchangeView.vue'
+import BarGraph from '../components/BarGraph.vue'
 
 const isAuthenticated = () => {
   return !!localStorage.getItem('token')
@@ -136,6 +137,11 @@ const router = createRouter({
       path: '/exchange',
       name: 'exchange',
       component: ExchangeView
+    },
+    {
+      path: '/bargraph',
+      name: 'bargraph',
+      component: BarGraph
     },
   ]
 })

@@ -51,62 +51,55 @@
 </template>
 
 <script setup>
-import { useProductStore } from '@/stores/D_S';
-// import { useUserStore } from '@/stores/user';
-import { ref, onMounted, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useProductStore } from '@/stores/D_S'
+import { useUserStore } from '@/stores/user'
+import { onMounted, computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const store = useProductStore()
-// const userStore = useUserStore()
+const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
-const goBack = ()=> router.back()
-const toggleMyProduct = function () {
-    if ( route.params.type == 'deposit' ) {
-        // store.toggleMyDeposit(store.product[0].fin_prdt_cd)
-    }
-    else {
-        // store.toggleMySavings(store.product[0].fin_prdt_cd)
-    }
+const goBack = () => router.back()
+
+// 상품 데이터 불러오고 내 상품 정보도 불러오기
+onMounted(async () => {
+  if (route.params.type === 'deposit') {
+    await store.getDepositsDetail(route.params.productId)
+  } else {
+    await store.getSavingsDetail(route.params.productId)
+  }
+  await userStore.fetchMyProducts()
+})
+
+// 이미 추가되어있는지 판별
+const isMyProduct = computed(() => {
+  const prod = store.product[0]?.product
+  if (!prod) return false
+  if (route.params.type === 'deposit') {
+    return userStore.depositList.some(d => d.fin_prdt_cd === prod.fin_prdt_cd)
+  } else {
+    return userStore.savingList.some(s => s.fin_prdt_cd === prod.fin_prdt_cd)
+  }
+})
+
+const normalizeType = (type) => {
+  if (type === 'savings') return 'saving'
+  if (type === 'deposits') return 'deposit'
+  return type
 }
 
-
-const isMyProduct = computed( ()=> {
-    // if ( route.params.type == 'deposit' ) {
-
-    //     if (userStore.deposit.deposit_list==null){
-    //         return false
-    //     }
-    //     for (const deposit of userStore.deposit.deposit_list) {
-    //         if (deposit.fin_prdt_cd == store.product[0].product.fin_prdt_cd){
-    //             return true
-    //         }
-    //     }
-    //     return false
-    // }
-    // else {
-    //     if (userStore.saving.saving_list==null){
-    //         return false
-    //     }
-    //     for (const saving of userStore.saving.saving_list) {
-    //         if (saving.fin_prdt_cd == store.product[0].product.fin_prdt_cd){
-    //             return true
-    //         }
-    //     }
-        return false
-    // }
-})
-
-onMounted ( ()=> {
-    if( route.params.type == 'deposit'){
-        store.getDepositsDetail(route.params.productId)        
-    }
-    else {
-        store.getSavingsDetail(route.params.productId)
-        // userStore.savingchart(userStore.username)
-    }
-})
-
+// 추가/제거 버튼
+const toggleMyProduct = async () => {
+  const prod = store.product[0]?.product
+  if (!prod) return
+    const type = normalizeType(route.params.type)
+  if (!isMyProduct.value) {
+    await userStore.addMyProduct(type, prod.fin_prdt_cd)
+  } else {
+    await userStore.removeMyProduct(type, prod.fin_prdt_cd)
+  }
+}
 </script>
 
 <style scoped>
