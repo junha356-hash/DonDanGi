@@ -74,6 +74,13 @@
                 <span class="badge bg-gradient text-bg-light text-danger fs-6 px-2">
                   {{ getBestDepositRate(item) !== null ? getBestDepositRate(item) + '%' : 'N/A' }}
                 </span>
+                  <button
+                  class="btn btn-outline-danger btn-sm ms-2"
+                  @click="removeProduct('deposit', item.fin_prdt_cd)"
+                  title="내 목록에서 삭제"
+                >
+                  <i class="bi bi-x-circle"></i>
+                </button>
               </li>
             </ul>
           </div>
@@ -101,6 +108,13 @@
                 <span class="badge bg-gradient text-bg-light text-danger fs-6 px-2">
                   {{ getBestSavingRate(item) !== null ? getBestSavingRate(item) + '%' : 'N/A' }}
                 </span>
+                  <button
+                  class="btn btn-outline-danger btn-sm ms-2"
+                  @click="removeProduct('saving', item.fin_prdt_cd)"
+                  title="내 목록에서 삭제"
+                >
+                  <i class="bi bi-x-circle"></i>
+                </button>
               </li>
             </ul>
           </div>
@@ -193,6 +207,18 @@ const getBestDepositRate = (item) => {
 const getBestSavingRate = (item) => {
   if (!item.options || item.options.length === 0) return null
   return Math.max(...item.options.map(opt => opt.intr_rate ?? 0))
+}
+
+const removeProduct = async (type, fin_prdt_cd) => {
+  await userStore.removeMyProduct(type, fin_prdt_cd)
+  // 성공 후 새로고침(최신 상태 반영)
+  await userStore.fetchMyProducts()
+  // 혹시 체크 상태도 반영 원하면 선택 배열에서 제거
+  if (type === 'deposit') {
+    selectedProducts.value = selectedProducts.value.filter(p => p.fin_prdt_cd !== fin_prdt_cd)
+  } else if (type === 'saving') {
+    selectedSavings.value = selectedSavings.value.filter(p => p.fin_prdt_cd !== fin_prdt_cd)
+  }
 }
 
 </script>

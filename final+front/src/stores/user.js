@@ -58,6 +58,12 @@ export const useUserStore = defineStore('user', {
         params: { type }
       })
       await this.fetchMyProducts()
+    },
+    async removeMyProduct(type, fin_prdt_cd) {
+      const token = localStorage.getItem('token')
+      await axios.delete(`http://127.0.0.1:8000/api/v1/user/products/${type}/${fin_prdt_cd}/`, {
+        headers: { 'Authorization': `Token ${token}` }
+      })
     }
   }
 })

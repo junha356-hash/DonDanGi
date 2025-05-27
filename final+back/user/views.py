@@ -78,3 +78,15 @@ class UserProductAPIView(APIView):
         else:
             return Response({"error": "type 값이 잘못됨"}, status=400)
         return Response({"message": "상품이 삭제되었습니다."}, status=200)
+    
+    def delete(self, request, type, fin_prdt_cd):
+        profile = request.user.profile
+        if type == "deposit":
+            product = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+            profile.my_deposits.remove(product)
+        elif type == "saving":
+            product = SavingProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+            profile.my_savings.remove(product)
+        else:
+            return Response({"error": "타입 에러"}, status=400)
+        return Response({"message": "삭제 성공"}, status=204)
