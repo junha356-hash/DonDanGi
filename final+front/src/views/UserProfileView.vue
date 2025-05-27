@@ -233,10 +233,13 @@ const removeProduct = async (type, fin_prdt_cd) => {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   margin-bottom: 16px;
 }
+
 .profile-info p {
   font-size: 1.25rem;
 }
+
 .profile-info strong {
   font-weight: 600;
 }
+
 </style>

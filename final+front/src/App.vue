@@ -27,11 +27,6 @@
                   로그인
                 </RouterLink>
               </li>
-              <li class="nav-item" v-else>
-                <button class="nav-link btn btn-link" @click="logout" :style="{ color: isScrolledColor }">
-                  로그아웃
-                </button>
-              </li>
               <li class="nav-item">
                 <RouterLink :to="{
                   name: 'product',
@@ -77,6 +72,14 @@
                 </RouterLink>
               </li>
             </ul>
+            <div v-if="isLoggedIn" class="d-flex align-items-center ms-3" :style="{ color: isScrolledColor }">
+              <span class="fw-bold me-2" style="white-space:nowrap; font-size:1rem;">
+                환영합니다, <span class="text-primary">{{ username }}</span>님
+              </span>
+              <button class="btn btn-danger btn-sm ms-1 text-white" @click="logout">
+                로그아웃
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -99,9 +102,6 @@ import { onMounted, onUnmounted, ref, computed } from 'vue'
 import { useNavbarStore } from './stores/navbar'
 import { useUserStore } from './stores/user'
 import { createPinia } from 'pinia'
-// import VideoList from '@/views/VideoList.vue'
-// import VideoListDetail from '@/components/VideoListDetail.vue'
-// import {}
 
 const router = useRouter()
 const route = useRoute()
@@ -110,6 +110,7 @@ const navbarStore = useNavbarStore()
 const isScrolled = ref(false)
 const isScrolledColor = ref('')
 const isLoggedIn = computed(() => userStore.isLogin)
+const username = computed(() => userStore.username || localStorage.getItem('username') || '')
 
 const signin = async () => {
   if (res.ok) {
