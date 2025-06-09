@@ -60,7 +60,7 @@
 import { ref, watch } from 'vue'
 import axios from 'axios'
 
-const API_KEY = 'AD6715YFHJNKZLU2'
+const API_KEY = 
 
 const CountryList = ref([
   '미국', '일본', '영국', '중국', '호주', '캐나다', '스위스', '뉴질랜드',
