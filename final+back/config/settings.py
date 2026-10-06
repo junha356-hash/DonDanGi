@@ -28,14 +28,14 @@ FIN_KEY = env('FIN_KEY')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l!83^=75lzbfg%q62k-kb*#(7q45lyhagvfc*j+xrfnmm-1$8%'
+SECRET_KEY = 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 FSS_API_KEY = env('FSS_API_KEY')
 
-OPENAI_API_KEY = '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'
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 ALLOWED_HOSTS = []
 
